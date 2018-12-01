@@ -12,6 +12,7 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        // TODO add default users the professor wanted
         $new_user = new User;
         $new_user->name = 'Andrew';
         $new_user->email = 'andrew@andrew.com';
