@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header">Create Game</div>
+                <div class="card-header">Create Game (BlackJack pays 2 to 1 for integer math purposes)</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('createGame') }}">
                         @csrf
@@ -34,10 +34,19 @@
                     <div class='card'>
                         <div class="card-header">Current Pot: ${{$game->user_pot}}</div>
                         <div class="card-body">
+                            @if($game->user_pot > 0 && $game->status == \App\utilities\BlackJack::GAME_STATUS_IN_PROGRESS)
                             <form method="GET" action="{{ route('joinGame') }}">
                                 <input type='hidden' value='{{$game->id}}' name='game_id'>
                                 <button class='btn btn-primary'>Join Game</button>
                             </form>
+                            @endif
+                            @if($game->status == \App\utilities\BlackJack::GAME_STATUS_IN_PROGRESS)
+                            <form method="POST" action="{{ route('endGame') }}">
+                                @csrf
+                                <input type='hidden' value='{{$game->id}}' name='game_id'>
+                                <button class='btn btn-danger'>End Game</button>
+                            </form>
+                            @endif
                             @if(isset($game['last_hand']))
                                 <div class='row'>
                                     <div class='col-sm-12'>
