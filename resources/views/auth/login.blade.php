@@ -20,7 +20,7 @@
                                            type="email"
                                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                            name="email"
-                                           value="{{ old('email') ?? 'HELLO' }}"
+                                           value="{{ old('email') ?? 'susanbuck@fas.harvard.edu' }}"
                                            required
                                            autofocus>
 
@@ -41,6 +41,7 @@
                                            type="password"
                                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                            name="password"
+                                           value="{{ old('password') ?? 'secret' }}"
                                            required>
 
                                     @if ($errors->has('password'))

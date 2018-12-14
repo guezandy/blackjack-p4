@@ -21,7 +21,7 @@ class GameTableSeeder extends Seeder
         $game->user_id = 1;
         $game->save();
 
-        // First hand
+        // First hand user wins
         $history = new History;
         $history->dealer = 'XD,JH';
         $history->user = '4H,7C,XC';
@@ -30,20 +30,62 @@ class GameTableSeeder extends Seeder
         $history->pot_after_result = 110;
         $history->save();
 
-        // Second hand
+        // Join game and history
+        $game_history = new GameHistory;
+        $game_history->game_id = $game->id;
+        $game_history->history_id = $history->id;
+        $game_history->save();
+
+        // After a hand update the current game pot
+        $game->user_pot = 110;
+        $game->save();
+
+        // Second hand - dealer wins
         $history = new History;
         $history->dealer = '2D,2H';
         $history->user = '2H,2C,2C';
         $history->bet = 10;
         $history->result = BlackJack::HISTORY_STATUS_DEALER_WIN;
-        $history->pot_after_result = 110;
+        $history->pot_after_result = 100;
         $history->save();
 
-        // Join table
+        // Join game and history
         $game_history = new GameHistory;
         $game_history->game_id = $game->id;
         $game_history->history_id = $history->id;
         $game_history->save();
+
+        // After a hand update the current game pot
+        $game->user_pot = 100;
+        $game->save();
+
+        // End that game to see data in completed games
+        $game->status = BlackJack::GAME_STATUS_COMPLETE;
+        $game->save();
+
+        // Start a second game to show a game in the in progress area
+        $game = new Game;
+        $game->user_id = 1;
+        $game->save();
+
+        // First hand for second game
+        $history = new History;
+        $history->dealer = 'XD,JH';
+        $history->user = 'XH,AC';
+        $history->bet = 20;
+        $history->result = BlackJack::HISTORY_STATUS_USER_WIN;
+        $history->pot_after_result = 120;
+        $history->save();
+
+        // Join game and history
+        $game_history = new GameHistory;
+        $game_history->game_id = $game->id;
+        $game_history->history_id = $history->id;
+        $game_history->save();
+
+        // After a hand update the current game pot
+        $game->user_pot = 120;
+        $game->save();
 
     }
 }

@@ -12,9 +12,8 @@
                 </div>
             @elseif(isset($game['history']) && count($game['history']) > 0)
                 @foreach($game['history'] as $history)
-                    <div class='row'>
+                    <div class='row game-play-history'>
                         <div class='col-sm-12'>
-                            <hr>
                             @component('components.history', ['history'=> $history])@endcomponent
                         </div>
                     </div>
