@@ -21,6 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/createGame', 'HomeController@createGame')->name('createGame');
 Route::get('/joinGame', 'HomeController@joinGame')->name('joinGame');
 Route::post('/endGame', 'HomeController@endGame')->name('endGame');
+Route::post('/deleteGame', 'HomeController@deleteGame')->name('deleteGame');
 
 Route::post('/startHand', 'HomeController@startHand')->name('startHand');
 Route::post('/gameAction', 'HomeController@gameAction')->name('gameAction');

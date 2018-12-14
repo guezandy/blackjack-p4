@@ -20,6 +20,7 @@ class CreateGameTable extends Migration
             $table->integer('user_id')->unsigned(); // Each game will only have a single player for simplicity
             $table->integer('user_pot')->default(100); // Start users with 100$ pot
             $table->integer('status')->default(BlackJack::GAME_STATUS_IN_PROGRESS); // Default is in progress
+            $table->timestamp('deleted_at')->nullable();
         });
     }
 

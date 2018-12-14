@@ -1,0 +1,22 @@
+.card-footer {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.card-footer form {
+    margin-bottom: 10px;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.history p {
+    margin-bottom: 2px;
+}
+
+.game-play-history {
+    border: 1px solid gray;
+    padding: 10px;
+}

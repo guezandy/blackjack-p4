@@ -11,30 +11,39 @@
                     </div>
                 </div>
                 <div class='card'>
-                    <div class="card-header">History</div>
+                    <div class="card-header">Instructions</div>
                     <div class="card-body">
-                        @if(count($game['history']) == 0)
-                            <p>No history yet</p>
-                        @else
-                            @foreach($game['history'] as $index=>$history)
-                                @component('components.history', ['history'=> $history])@endcomponent
-                                <hr>
-                            @endforeach
-                        @endif
+                        Welcome to the game play area
+                        <ul>
+                            <li>Current user funds shows how much money you have left in this game</li>
+                            <li>History shows a brief history of previous hands played in this game</li>
+                            <li>In the game area you play black jack</li>
+                            <li>BlackJack pays 2 to 1 for integer math purposes</li>
+                        </ul>
+                        Game play
+                        <ul>
+                            <li>Select your initial bet</li>
+                            <li>See your hand and the dealers hand - Both dealer cards show - just for simplicity</li>
+                            <li>You can push if the dealer has 21 at the start - not like usual blackjack again for simplicity</li>
+                            <li>Perform ACTION - either hit or hold</li>
+                            <li><strong>Hit</strong> will draw you a new card</li>
+                            <li><strong>Hold</strong> will hold and let the dealer hit til win or bust</li>
+                        </ul>
                     </div>
                 </div>
             </div>
-            <div class='col-sm-8'>
+            <div class='col-sm-4'>
                 <div class='card'>
                     <div class="card-header">Game Area</div>
-                    <div class="card-body">
-                        @if(isset($game['hand_in_progress']))
+                    @if(isset($game['hand_in_progress']))
+                        <div class="card-body">
                             @component('components.history', ['history' => $game['hand_in_progress']])@endcomponent
+                        </div>
+                        <div class='card-footer'>
                             <form method="POST" action="{{ route('gameAction') }}">
                                 @csrf
                                 <input type='hidden' value='{{$game->id}}' name='game_id'>
                                 <div class="form-group row">
-                                    <label for="action" class='col-sm-2'>What to do: </label>
                                     <select class="form-control col-sm-6" id="action" name='action' required>
                                         <option value='{{\App\utilities\BlackJack::ACTION_HIT}}'>Hit</option>
                                         <option value='{{\App\utilities\BlackJack::ACTION_HOLD}}'>Hold</option>
@@ -44,7 +53,9 @@
                                     </div>
                                 </div>
                             </form>
-                        @else
+                        </div>
+                    @else
+                        <div class="card-body">
                             <form method="POST" action="{{ route('startHand') }}">
                                 @csrf
                                 <input type='hidden' value='{{$game->id}}' name='game_id'>
@@ -60,6 +71,23 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                     @endif
+                </div>
+            </div>
+            <div class='col-sm-4'>
+                <div class='card'>
+                    <div class="card-header">History</div>
+                    <div class="card-body">
+                        @if(count($game['history']) == 0)
+                            <p>No history yet</p>
+                        @else
+                            @foreach($game['history'] as $index=>$history)
+                                <div class='game-play-history'>
+                                    @component('components.history', ['history'=> $history])@endcomponent
+                                </div>
+                                <hr>
+                            @endforeach
                         @endif
                     </div>
                 </div>
