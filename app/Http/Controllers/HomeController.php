@@ -75,27 +75,36 @@ class HomeController extends Controller
         return redirect()->action('HomeController@index');
     }
 
-    public function endGame()
+    public function endGame(Request $request)
     {
-        $game = Game::where('id', Input::get('game_id'))->first();
+        $validatedData = $request->validate([
+            'game_id' => 'required'
+        ]);
+        $game = Game::where('id', $validatedData['game_id'])->first();
         $game->status = BlackJack::GAME_STATUS_COMPLETE;
         $game->save();
 
         return redirect()->action('HomeController@index');
     }
 
-    public function deleteGame()
+    public function deleteGame(Request $request)
     {
-        $game = Game::where('id', Input::get('game_id'))->first();
+        $validatedData = $request->validate([
+            'game_id' => 'required'
+        ]);
+        $game = Game::where('id', $validatedData['game_id'])->first();
         $game->deleted_at = now();
         $game->save();
 
         return redirect()->action('HomeController@index');
     }
 
-    public function joinGame()
+    public function joinGame(Request $request)
     {
-        $game_id = Input::get('game_id');
+        $validatedData = $request->validate([
+            'game_id' => 'required'
+        ]);
+        $game_id = $validatedData['game_id'];
 
         // Am I the user of this game or is game deleted?
         $game = Game::where('id', $game_id)->where('user_id', Auth::id())->where('deleted_at', null)->first();
@@ -103,7 +112,8 @@ class HomeController extends Controller
             return redirect()->back()->with('error_status', 'Cannot join that game');
         }
 
-        $game_histories = GameHistory::where('game_id', $game->id)->pluck('history_id');
+        // Use model join
+        $game_histories = $game->history()->pluck('history_id');
         $game['history'] = History::whereIn('id', $game_histories)->where('result', '!=',
             BlackJack::HISTORY_STATUS_IN_PROGRESS)->orderBy('id', 'desc')->get();
 
@@ -114,10 +124,14 @@ class HomeController extends Controller
         return view('game')->with('game', $game);
     }
 
-    public function startHand()
+    public function startHand(Request $request)
     {
-        $game_id = Input::get('game_id');
-        $bet = Input::get('bet');
+        $validatedData = $request->validate([
+            'game_id' => 'required',
+            'bet' => 'required|integer'
+        ]);
+        $game_id = $validatedData['game_id'];
+        $bet = $validatedData['bet'];
 
         $new_history = new History;
         $new_history->bet = $bet;
@@ -133,13 +147,19 @@ class HomeController extends Controller
         return redirect()->back();
     }
 
-    public function gameAction()
+    public function gameAction(Request $request)
     {
-        $game_id = Input::get('game_id');
-        $action = Input::get('action');
+        $validatedData = $request->validate([
+            'game_id' => 'required',
+            'action' => 'required|integer'
+        ]);
+        $game_id = $validatedData['game_id'];
+        $action = $validatedData['action'];
 
         $game = Game::findOrFail($game_id);
-        $game_histories = GameHistory::where('game_id', $game_id)->pluck('history_id');
+
+        // Use model join
+        $game_histories = $game->history()->pluck('history_id');
         $hand_in_progress = History::whereIn('id', $game_histories)->where('result',
             BlackJack::HISTORY_STATUS_IN_PROGRESS)->orderBy('id', 'desc')->first();
 

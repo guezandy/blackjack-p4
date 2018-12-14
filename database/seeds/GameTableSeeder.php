@@ -32,8 +32,8 @@ class GameTableSeeder extends Seeder
 
         // Join game and history
         $game_history = new GameHistory;
-        $game_history->game_id = $game->id;
-        $game_history->history_id = $history->id;
+        $game_history->game()->associate($game);
+        $game_history->history()->associate($history);
         $game_history->save();
 
         // After a hand update the current game pot
@@ -51,8 +51,8 @@ class GameTableSeeder extends Seeder
 
         // Join game and history
         $game_history = new GameHistory;
-        $game_history->game_id = $game->id;
-        $game_history->history_id = $history->id;
+        $game_history->game()->associate($game);
+        $game_history->history()->associate($history);
         $game_history->save();
 
         // After a hand update the current game pot
@@ -79,8 +79,8 @@ class GameTableSeeder extends Seeder
 
         // Join game and history
         $game_history = new GameHistory;
-        $game_history->game_id = $game->id;
-        $game_history->history_id = $history->id;
+        $game_history->game()->associate($game);
+        $game_history->history()->associate($history);
         $game_history->save();
 
         // After a hand update the current game pot

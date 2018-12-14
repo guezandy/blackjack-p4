@@ -39,6 +39,18 @@
         </div>
         <div class='col-md-8'>
             <div class='col-sm-12'>
+                {{-- Pretty standard error handling--}}
+                @if ($errors->any())
+                    <div class='col-sm-12'>
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                @endif
                 <div class='col-sm-12'>
                     @if(count($in_progress_games) > 0)
                         <h2>Game(s) in Progress </h2>

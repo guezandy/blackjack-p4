@@ -19,6 +19,7 @@
                             <li>History shows a brief history of previous hands played in this game</li>
                             <li>In the game area you play black jack</li>
                             <li>BlackJack pays 2 to 1 for integer math purposes</li>
+                            <li>Dealer hits on Soft 17</li>
                         </ul>
                         Game play
                         <ul>
@@ -35,6 +36,18 @@
             <div class='col-sm-4'>
                 <div class='card'>
                     <div class="card-header">Game Area</div>
+                    {{-- Pretty standard error handling--}}
+                    @if ($errors->any())
+                        <div class='col-sm-12'>
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
                     @if(isset($game['hand_in_progress']))
                         <div class="card-body">
                             @component('components.history', ['history' => $game['hand_in_progress']])@endcomponent
@@ -62,9 +75,9 @@
                                 <div class="form-group row">
                                     <label for="bet" class='col-sm-2'>Bet</label>
                                     <select class="form-control col-sm-6" id="bet" name='bet' required>
-                                        <option value='10'>10</option>
-                                        <option value='20'>20</option>
-                                        <option value='40'>40</option>
+                                        <option value='10' @if($game->user_pot < 10) disabled @endif>10</option>
+                                        <option value='20' @if($game->user_pot < 20) disabled @endif>20</option>
+                                        <option value='40' @if($game->user_pot < 40) disabled @endif>40</option>
                                     </select>
                                     <div class='col-sm-2'>
                                         <button class='btn btn-primary' type='submit'>Place bet</button>
