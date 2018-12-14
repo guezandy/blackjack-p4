@@ -46,7 +46,7 @@ NOTE: Also encourage you to Join a game and play a couple hands of blackjack - t
 ## Code style divergences
 
 ## Notes for instructor
-The black jack game play is not 100% logically perfect but it works for the most part. 
-All the logic for the game play is in BlackJack.php
-There is also no graphics - just didn't have time to add images for the cards and what not.
-The main landing page after logging in has instructions - as does the game play screen when you click Join Game.
++ The black jack game play is not 100% logically perfect but it works for the most part. 
++ All the logic for the game play is in BlackJack.php
++ There is also no graphics - just didn't have time to add images for the cards and what not.
++ The main landing page after logging in has instructions - as does the game play screen when you click Join Game.
