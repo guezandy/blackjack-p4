@@ -29,6 +29,6 @@ class CreateGameHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_histories');
+        Schema::dropIfExists('game_history');
     }
 }
